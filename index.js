@@ -7,16 +7,20 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Serve all static files (including index.html, CSS, and JS) from the current directory
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(__dirname));
 
-// Explicit root route fallback to send index.html
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  console.log("Root route was hit!");
+  const filePath = path.join(__dirname, 'index.html');
+  res.sendFile(filePath, (err) => {
+    if (err) {
+      console.error("Error sending index.html:", err);
+      res.status(500).send("Error loading page: " + err.message);
+    }
+  });
 });
 
 const MONGO_URI = process.env.MONGO_URI || "";
-
 mongoose.connect(MONGO_URI)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
