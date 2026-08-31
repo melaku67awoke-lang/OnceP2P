@@ -6,10 +6,15 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://melaku67awoke_db_user:55vER2qx6x1NlqHn@cluster0.jphkwdb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+// Root route to fix the "Cannot GET /" message
+app.get('/', (req, res) => {
+  res.json({ status: "success", message: "Once P2P Backend is running successfully!" });
+});
+
+const MONGO_URI = process.env.MONGO_URI || "";
 
 mongoose.connect(MONGO_URI)
-  .then(() => console.log("Connected to MongoDB Atlas successfully!"))
+  .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
 const PORT = process.env.PORT || 3000;
