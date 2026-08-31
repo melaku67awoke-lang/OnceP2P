@@ -1,14 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Root route to fix the "Cannot GET /" message
+// Serve your frontend HTML file directly at the root URL
 app.get('/', (req, res) => {
-  res.json({ status: "success", message: "Once P2P Backend is running successfully!" });
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 const MONGO_URI = process.env.MONGO_URI || "";
